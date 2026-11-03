@@ -1,0 +1,521 @@
+/* =====================================================================
+   HMS "AUBERGINE & SAFFRON" THEME  —  complete visual redesign
+   ---------------------------------------------------------------------
+   Imported LAST in main.jsx, so it overrides index.css + every role CSS.
+   No JSX / API / backend code is touched.
+   Look: warm paper background, deep aubergine sidebar, saffron accent,
+   serif headings (Fraunces), DM Sans body, squared flat blocks,
+   fixed-column grids, underline-style tables.
+   Re-brand anytime by editing the variables in :root.
+   ===================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+    --t-ink: #1f1228;
+    --t-plum: #3b1d4f;
+    --t-plum-2: #512a6b;
+    --t-saffron: #f59e0b;
+    --t-saffron-d: #d97706;
+    --t-rose: #e11d6a;
+    --t-paper: #faf6ef;
+    --t-card: #fffdf9;
+    --t-line: #e7dfd1;
+    --t-line-2: #d6cbb8;
+    --t-text: #2a1f33;
+    --t-muted: #7a6f82;
+
+    --t-r: 6px;
+    --t-r-lg: 10px;
+    --t-shadow: 4px 4px 0 rgba(59, 29, 79, .08);
+    --t-shadow-hover: 6px 6px 0 rgba(245, 158, 11, .35);
+    --t-ring: 0 0 0 3px rgba(245, 158, 11, .35);
+
+    /* re-point the old variables so any leftover usage follows the new look */
+    --hms-primary: var(--t-plum);
+    --hms-blue: var(--t-plum-2);
+    --hms-bg: var(--t-paper);
+    --hms-surface: var(--t-card);
+    --hms-border: var(--t-line);
+    --hms-text: var(--t-text);
+    --hms-muted: var(--t-muted);
+    --hms-grad: linear-gradient(0deg, var(--t-plum), var(--t-plum));
+    --hms-grad-soft: linear-gradient(0deg, #fdf0d5, #fdf0d5);
+    --hms-ring: var(--t-ring);
+}
+
+/* ---------- page background & typography ---------- */
+html body {
+    font-family: "DM Sans", "Segoe UI", system-ui, sans-serif;
+    font-size: 15px;
+    color: var(--t-text);
+    background:
+        repeating-linear-gradient(0deg, transparent 0 31px, rgba(59, 29, 79, .025) 31px 32px),
+        var(--t-paper);
+    background-attachment: fixed;
+}
+html body :is(h1, h2, h3, h4),
+html body [class$="-logo"] h2 {
+    font-family: "Fraunces", Georgia, "Times New Roman", serif;
+    letter-spacing: -.01em;
+    color: var(--t-ink);
+}
+html body h1 { font-weight: 800; font-size: 30px; }
+html body [class$="-page"], html body [class$="-layout"], html body .app-layout, html body .app-main { background: transparent; }
+html body .admin-layout { background: transparent; --hms-text: var(--t-text); --hms-muted: var(--t-muted); }
+::selection { background: var(--t-saffron); color: var(--t-ink); }
+* { scrollbar-color: var(--t-line-2) transparent; }
+*::-webkit-scrollbar-thumb { background: var(--t-line-2); border-radius: 0; }
+
+/* calmer motion: simple fade, no bounce */
+@keyframes hmsRise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+html body [class$="-main"] > *, html body [class$="-content"] > * { animation: hmsRise .35s ease both; }
+
+/* =====================================================================
+   SIDEBAR  — deep aubergine, saffron left-bar for active item
+   ===================================================================== */
+html body [class$="-sidebar"] {
+    background: linear-gradient(180deg, var(--t-ink) 0%, var(--t-plum) 100%);
+    color: #f3e9fa;
+    border-right: none;
+    box-shadow: none;
+}
+html body [class$="-sidebar"] :is(h2, h3, strong) { color: #ffffff; }
+html body [class$="-sidebar"] :is(span, p, small) { color: rgba(243, 233, 250, .65); }
+
+html body [class$="-logo-icon"], html body .sidebar-brand-icon, html body .logo-icon, html body .navbar-logo {
+    background: var(--t-saffron);
+    color: var(--t-ink);
+    border-radius: var(--t-r);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, .25);
+}
+html body [class$="-logo"], html body .sidebar-brand { border-bottom: 1px solid rgba(255, 255, 255, .12); }
+html body [class$="-logo"] h2, html body .sidebar-brand h2 { color: #fff; font-weight: 700; letter-spacing: .01em; }
+
+html body [class$="-nav"] button,
+html body [class$="-nav-item"],
+html body [class$="-menu-item"],
+html body .sidebar-item {
+    color: rgba(243, 233, 250, .78);
+    border-radius: 0 var(--t-r) var(--t-r) 0;
+    border-left: 3px solid transparent;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: .01em;
+    transition: background .2s, color .2s, border-color .2s, padding-left .2s;
+}
+html body [class$="-nav"] button:hover,
+html body [class$="-nav-item"]:hover,
+html body [class$="-menu-item"]:hover,
+html body .sidebar-item:hover {
+    background: rgba(255, 255, 255, .07);
+    color: #fff;
+    transform: none;
+    padding-left: 18px;
+}
+html body [class$="-nav"] button.active,
+html body [class$="-nav-item"].active,
+html body [class$="-menu-item"].active,
+html body .sidebar-item.active,
+html body .admin-sidebar .admin-menu-item.active {
+    background: rgba(245, 158, 11, .16);
+    color: #fbbf24;
+    border-left-color: var(--t-saffron);
+    font-weight: 700;
+    box-shadow: none;
+}
+html body [class$="-nav"] button.active *,
+html body [class$="-nav-item"].active *,
+html body [class$="-menu-item"].active *,
+html body .sidebar-item.active *,
+html body .admin-sidebar [class$="-menu-item"].active * { color: #fbbf24; }
+html body .admin-sidebar { background: linear-gradient(180deg, var(--t-ink) 0%, var(--t-plum) 100%); color: #f3e9fa; border-right: none; box-shadow: none; }
+html body .admin-sidebar .admin-menu-item { color: rgba(243, 233, 250, .78); }
+html body .admin-sidebar .admin-menu-item:hover { background: rgba(255, 255, 255, .07); color: #fff; }
+
+html body [class$="-logout"], html body .logout-item, html body .sidebar-logout {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: #ffd6e3;
+    border-radius: var(--t-r);
+    font-weight: 600;
+}
+html body [class$="-logout"]:hover, html body .logout-item:hover, html body .sidebar-logout:hover {
+    background: var(--t-rose);
+    border-color: var(--t-rose);
+    color: #fff;
+}
+html body .sidebar-user, html body [class$="-sidebar-bottom"] { border-top-color: rgba(255, 255, 255, .12); }
+
+/* =====================================================================
+   HEADERS, LABELS, AVATARS
+   ===================================================================== */
+html body [class$="-header"] h1, html body [class$="-page-header"] h1 { font-weight: 800; color: var(--t-ink); }
+html body [class$="-label"]:not(label):not([class*="small-label"]),
+html body .page-label, html body .welcome-label {
+    display: inline-block;
+    padding: 3px 10px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    background: var(--t-saffron);
+    color: var(--t-ink);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+html body [class$="-header"] p, html body [class$="-page-header"] p { color: var(--t-muted); }
+html body [class$="-user"]:not(.sidebar-user) {
+    background: var(--t-card);
+    border: 1px solid var(--t-line-2);
+    border-radius: var(--t-r);
+    box-shadow: 3px 3px 0 rgba(59, 29, 79, .08);
+}
+html body [class$="-avatar"] {
+    background: var(--t-plum);
+    color: #fde68a;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700;
+    box-shadow: none;
+    border-radius: var(--t-r);
+}
+html body .appointment-avatar { border-radius: var(--t-r); background: var(--t-plum); }
+html body .appointment-avatar.doctor-avatar { background: var(--t-saffron-d); }
+html body .common-navbar { background: var(--t-card); backdrop-filter: none; border-bottom: 2px solid var(--t-ink); }
+html body .navbar-left h2 { color: var(--t-ink); }
+html body .navbar-logout { border-radius: var(--t-r); background: #fde8ef; color: #9f1239; }
+
+/* =====================================================================
+   CARD COLOUR ROTATION  (new palette)
+   ===================================================================== */
+html body [class$="-stat-card"]:nth-child(6n+1), html body [class$="-action-card"]:nth-child(6n+1), html body [class$="-quick-card"]:nth-child(6n+1), html body .responsibility-card:nth-child(6n+1) { --c1:#512a6b; --c2:#3b1d4f; --tint:#f4ecfa; }
+html body [class$="-stat-card"]:nth-child(6n+2), html body [class$="-action-card"]:nth-child(6n+2), html body [class$="-quick-card"]:nth-child(6n+2), html body .responsibility-card:nth-child(6n+2) { --c1:#f59e0b; --c2:#d97706; --tint:#fef3d6; }
+html body [class$="-stat-card"]:nth-child(6n+3), html body [class$="-action-card"]:nth-child(6n+3), html body [class$="-quick-card"]:nth-child(6n+3), html body .responsibility-card:nth-child(6n+3) { --c1:#e11d6a; --c2:#be123c; --tint:#fde8ef; }
+html body [class$="-stat-card"]:nth-child(6n+4), html body [class$="-action-card"]:nth-child(6n+4), html body [class$="-quick-card"]:nth-child(6n+4), html body .responsibility-card:nth-child(6n+4) { --c1:#4d7c0f; --c2:#3f6212; --tint:#eef7dc; }
+html body [class$="-stat-card"]:nth-child(6n+5), html body [class$="-action-card"]:nth-child(6n+5), html body [class$="-quick-card"]:nth-child(6n+5), html body .responsibility-card:nth-child(6n+5) { --c1:#0e7490; --c2:#155e75; --tint:#e0f4f8; }
+html body [class$="-stat-card"]:nth-child(6n+6), html body [class$="-action-card"]:nth-child(6n+6), html body [class$="-quick-card"]:nth-child(6n+6), html body .responsibility-card:nth-child(6n+6) { --c1:#c2410c; --c2:#9a3412; --tint:#ffeede; }
+
+/* =====================================================================
+   STAT CARDS — flat, top accent rule, 4 fixed columns
+   ===================================================================== */
+html body [class$="-stats"], html body .ward-stats, html body .billing-summary, html body .overview-grid, html body .beds-overview-grid,
+html body .bed-stats-grid, html body .patient-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+html body [class$="-stat-card"], html body .status-overview-card, html body .billing-summary-card, html body .overview-card, html body .beds-overview-card {
+    background: var(--t-card);
+    border: 1px solid var(--t-line-2);
+    border-top: 4px solid var(--c1, var(--t-plum));
+    border-radius: var(--t-r);
+    box-shadow: var(--t-shadow);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+html body [class$="-stat-card"]::after { display: none; }
+html body [class$="-stat-card"]:hover, html body .status-overview-card:hover, html body .billing-summary-card:hover,
+html body .overview-card:hover, html body .beds-overview-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--t-shadow-hover);
+    border-color: var(--t-line-2);
+    border-top-color: var(--c1, var(--t-plum));
+}
+html body [class$="-stat-icon"], html body .stat-icon {
+    background: var(--tint, #f4ecfa);
+    color: var(--c2, var(--t-plum));
+    border-radius: var(--t-r);
+    box-shadow: none;
+    border: 1px solid var(--c1, var(--t-plum));
+}
+html body [class$="-stat-card"]:hover [class$="-stat-icon"], html body [class$="-stat-card"]:hover .stat-icon { transform: none; }
+html body [class$="-stat-card"] :is(h2, h3, strong) {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    color: var(--t-ink);
+}
+
+/* =====================================================================
+   QUICK-ACTION CARDS — flat tiles, 3 columns
+   ===================================================================== */
+html body [class$="-action-grid"], html body .quick-actions, html body [class$="-quick-grid"], html body .doctor-patient-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+html body [class$="-action-card"], html body [class$="-quick-card"] {
+    background: var(--t-card);
+    border: 1px solid var(--t-line-2);
+    border-left: 5px solid var(--c1, var(--t-plum));
+    border-radius: var(--t-r);
+    box-shadow: var(--t-shadow);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s;
+}
+html body [class$="-action-card"]::before, html body [class$="-quick-card"]::before { display: none; }
+html body [class$="-action-card"]:hover, html body [class$="-quick-card"]:hover {
+    transform: translate(-2px, -2px);
+    background: var(--tint, #fff);
+    border-color: var(--t-line-2);
+    border-left-color: var(--c1, var(--t-plum));
+    box-shadow: var(--t-shadow-hover);
+}
+html body [class$="-action-icon"], html body .action-icon {
+    background: var(--c2, var(--t-plum));
+    color: #fff;
+    border-radius: var(--t-r);
+    box-shadow: none;
+}
+html body [class$="-action-card"]:hover [class$="-action-icon"], html body [class$="-action-card"]:hover .action-icon,
+html body [class$="-quick-card"]:hover [class$="-action-icon"] { transform: none; }
+
+/* =====================================================================
+   CONTENT CARDS / PANELS
+   ===================================================================== */
+html body [class$="-table-card"], html body [class$="-form-card"], html body [class$="-filter-card"], html body [class$="-profile-card"],
+html body .overview-note, html body .confirm-dialog, html body .result-card, html body [class$="-prescription-card"],
+html body [class$="-admission-card"], html body [class$="-history-card"], html body .allocation-card,
+html body .doctor-selection-card, html body .process-list-card, html body .process-form-card, html body .detail-item {
+    background: var(--t-card);
+    border: 1px solid var(--t-line-2);
+    border-radius: var(--t-r);
+    box-shadow: var(--t-shadow);
+}
+html body [class$="-prescription-card"]:hover, html body [class$="-admission-card"]:hover, html body [class$="-history-card"]:hover,
+html body .doctor-selection-card:hover, html body .result-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--t-shadow-hover);
+    border-color: var(--t-saffron-d);
+}
+html body [class$="-section-heading"] :is(h2, h3), html body [class$="-section-header"] :is(h2, h3), html body [class$="-form-heading"] :is(h2, h3) {
+    padding-left: 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--t-ink);
+    display: inline-block;
+    font-weight: 700;
+    color: var(--t-ink);
+}
+html body [class$="-section-heading"] :is(h2, h3)::before, html body [class$="-section-header"] :is(h2, h3)::before, html body [class$="-form-heading"] :is(h2, h3)::before { display: none; }
+
+/* hero banners */
+html body .lab-welcome-card, html body .admin-welcome, html body .overview-header-card {
+    background:
+        radial-gradient(260px 260px at 96% 0%, rgba(245, 158, 11, .55), transparent 70%),
+        linear-gradient(120deg, var(--t-ink), var(--t-plum-2));
+    border-radius: var(--t-r-lg);
+    box-shadow: 6px 6px 0 rgba(245, 158, 11, .6);
+    color: #fff;
+}
+html body .lab-welcome-card :is(h1, h2, h3), html body .admin-welcome :is(h1, h2, h3), html body .overview-header-card :is(h1, h2, h3) { color: #fff; }
+html body .lab-welcome-card::after, html body .admin-welcome::after, html body .overview-header-card::after {
+    border: 2px solid rgba(255, 255, 255, .18);
+    border-radius: 0;
+    transform: rotate(45deg);
+}
+
+/* =====================================================================
+   TABLES — ink header, underline rows
+   ===================================================================== */
+html body [class$="-table"] th {
+    background: var(--t-ink);
+    color: #fde68a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border-bottom: none;
+}
+html body [class$="-table"] th:first-child { border-top-left-radius: var(--t-r); }
+html body [class$="-table"] th:last-child  { border-top-right-radius: var(--t-r); }
+html body [class$="-table"] td { border-bottom: 1px dashed var(--t-line-2); color: var(--t-text); }
+html body [class$="-table"] tbody tr:nth-child(even) td { background: #fbf6ec; }
+html body [class$="-table"] tbody tr:hover td { background: #fdecc4; }
+html body [class$="-table"] tbody tr:last-child td { border-bottom: none; }
+
+/* badges — squared tags */
+html body [class$="-status"], html body [class$="-badge"], html body .status-approved, html body .status-pending,
+html body .status-rejected, html body .status-inactive, html body .status-default {
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding-left: 10px; padding-right: 10px;
+}
+
+/* =====================================================================
+   BUTTONS
+   ===================================================================== */
+html body [class$="-primary-btn"], html body [class$="-primary-button"], html body .primary-btn, html body .auth-button,
+html body .bed-submit, html body [class$="-submit-button"] {
+    background: var(--t-saffron);
+    color: var(--t-ink);
+    border: 2px solid var(--t-ink);
+    border-radius: var(--t-r);
+    font-weight: 700;
+    letter-spacing: .02em;
+    box-shadow: 3px 3px 0 var(--t-ink);
+    transition: transform .15s ease, box-shadow .15s ease, background .15s;
+}
+html body [class$="-primary-btn"]:hover:not(:disabled), html body [class$="-primary-button"]:hover:not(:disabled),
+html body .primary-btn:hover:not(:disabled), html body .auth-button:hover:not(:disabled),
+html body .bed-submit:hover:not(:disabled), html body [class$="-submit-button"]:hover:not(:disabled) {
+    background: #fbbf24;
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--t-ink);
+    filter: none;
+}
+html body [class$="-primary-btn"]:active, html body [class$="-primary-button"]:active, html body .primary-btn:active, html body .auth-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--t-ink);
+}
+html body [class$="-secondary-btn"], html body [class$="-secondary-button"], html body [class$="-outline-button"], html body .secondary-btn,
+html body [class$="-refresh-btn"], html body [class$="-refresh-button"], html body .refresh-btn, html body .refresh-button,
+html body [class$="-back-button"], html body .back-button, html body .back-dashboard-btn,
+html body [class$="-small-btn"], html body .small-action-btn, html body .action-btn, html body .table-action, html body .delete-btn,
+html body .reject-btn, html body .approve-btn, html body .activate-btn, html body .deactivate-btn, html body [class$="-small-danger-button"],
+html body [class$="-view-btn"], html body .view-all-btn, html body .filter-btn {
+    border-radius: var(--t-r);
+    font-weight: 600;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s;
+}
+html body [class$="-back-button"], html body .back-button, html body .back-dashboard-btn,
+html body [class$="-refresh-btn"], html body [class$="-refresh-button"], html body .refresh-btn, html body .refresh-button,
+html body [class$="-secondary-btn"], html body [class$="-secondary-button"], html body .secondary-btn, html body [class$="-outline-button"],
+html body .view-all-btn, html body [class$="-view-btn"] {
+    background: transparent;
+    color: var(--t-plum);
+    border: 2px solid var(--t-plum);
+}
+html body [class$="-back-button"]:hover, html body .back-button:hover, html body .back-dashboard-btn:hover,
+html body [class$="-refresh-btn"]:hover:not(:disabled), html body [class$="-refresh-button"]:hover:not(:disabled),
+html body .refresh-btn:hover:not(:disabled), html body .refresh-button:hover:not(:disabled),
+html body [class$="-secondary-btn"]:hover:not(:disabled), html body [class$="-secondary-button"]:hover:not(:disabled),
+html body .secondary-btn:hover:not(:disabled), html body [class$="-outline-button"]:hover:not(:disabled),
+html body .view-all-btn:hover, html body [class$="-view-btn"]:hover:not(:disabled) {
+    background: var(--t-plum);
+    color: #fff;
+    transform: none;
+    box-shadow: none;
+    filter: none;
+}
+html body [class$="-small-btn"]:hover:not(:disabled), html body .small-action-btn:hover:not(:disabled),
+html body .action-btn:hover:not(:disabled), html body .table-action:hover:not(:disabled), html body .delete-btn:hover:not(:disabled),
+html body .reject-btn:hover:not(:disabled), html body .approve-btn:hover:not(:disabled), html body .activate-btn:hover:not(:disabled),
+html body .deactivate-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 0 rgba(31, 18, 40, .25);
+    filter: none;
+}
+html body .bed-secondary-button { background: transparent; color: var(--t-plum); border: 2px solid var(--t-plum); border-radius: var(--t-r); }
+html body .bed-secondary-button:hover { background: var(--t-plum); color: #fff; border-color: var(--t-plum); }
+html body .bed-edit-btn, html body .bed-edit-button { background: #fef3d6; color: #92400e; border: 1px solid #f3d489; border-radius: var(--t-r); }
+html body .bed-edit-btn:hover, html body .bed-edit-button:hover { background: var(--t-saffron); color: var(--t-ink); border-color: var(--t-ink); box-shadow: 2px 2px 0 var(--t-ink); transform: none; }
+html body button:focus-visible, html body a:focus-visible { outline: none; box-shadow: var(--t-ring); }
+
+/* =====================================================================
+   FORMS — squared inputs with strong bottom edge
+   ===================================================================== */
+html body input:not([type="checkbox"]):not([type="radio"]), html body select, html body textarea {
+    background: #fffefb;
+    border: 1.5px solid var(--t-line-2);
+    border-bottom: 3px solid var(--t-line-2);
+    border-radius: var(--t-r);
+    color: var(--t-text);
+}
+html body input:not([type="checkbox"]):not([type="radio"]):hover, html body select:hover, html body textarea:hover { border-color: var(--t-plum-2); }
+html body input:not([type="checkbox"]):not([type="radio"]):focus, html body select:focus, html body textarea:focus {
+    outline: none;
+    border-color: var(--t-saffron-d);
+    border-bottom-color: var(--t-saffron-d);
+    box-shadow: var(--t-ring);
+}
+html body input[type="checkbox"], html body input[type="radio"] { accent-color: var(--t-plum-2); }
+html body [class$="-form-group"] label, html body .form-group label, html body .patient-profile-field label {
+    color: var(--t-plum);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+html body [class$="-form-grid"] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 22px; }
+html body [class$="-form-grid"] .full-width, html body [class$="-form-grid"] [class$="-form-actions"] { grid-column: 1 / -1; }
+html body [class$="-search"], html body [class$="-search-box"], html body .patient-search-input { border-radius: var(--t-r); }
+
+/* feedback & states */
+html body [class$="-error"], html body .error-message, html body [class$="-success"], html body .success-message { border-radius: var(--t-r); font-weight: 500; }
+html body .bed-success { background: #eef7dc; color: #3f6212; border: 1px solid #c5de93; border-radius: var(--t-r); }
+html body .bed-error { background: #fde8ef; color: #9f1239; border: 1px solid #f6b5c8; border-radius: var(--t-r); }
+html body [class$="-empty"], html body .bed-no-data, html body .empty-calendar {
+    border-radius: var(--t-r);
+    border: 2px dashed var(--t-line-2);
+    background: rgba(255, 253, 249, .7);
+}
+html body .patient-empty-icon { border-radius: var(--t-r); background: #fef3d6; }
+html body [class$="-spinner"], html body .loading-spinner { border-color: #f3e3bd; border-top-color: var(--t-plum-2); }
+html body .dialog-overlay { backdrop-filter: none; background: rgba(31, 18, 40, .6); }
+html body .confirm-dialog { border-radius: var(--t-r-lg); box-shadow: 8px 8px 0 var(--t-saffron); border: 2px solid var(--t-ink); }
+html body .dialog-confirm { background: var(--t-rose); border-radius: var(--t-r); }
+html body .dialog-cancel { border-radius: var(--t-r); }
+html body [class$="-progress-track"] { border-radius: 2px; overflow: hidden; }
+html body [class$="-progress-fill"] { background: var(--t-saffron-d); border-radius: 0; }
+html body .common-footer { background: var(--t-card); border-top: 2px solid var(--t-ink); }
+
+/* =====================================================================
+   LOGIN / REGISTER — plum backdrop, cream card
+   ===================================================================== */
+html body .auth-page {
+    background:
+        radial-gradient(520px 520px at 100% 0%, rgba(245, 158, 11, .35), transparent 65%),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, .04) 0 2px, transparent 2px 18px),
+        linear-gradient(160deg, var(--t-ink), var(--t-plum-2));
+}
+html body .auth-page::before { border: 2px solid rgba(255, 255, 255, .12); border-radius: 0; transform: rotate(45deg); }
+html body .auth-page::after  { border: 2px solid rgba(245, 158, 11, .35); border-radius: 0; transform: rotate(45deg); }
+html body .auth-card {
+    background: var(--t-card);
+    border: 2px solid var(--t-ink);
+    border-radius: var(--t-r-lg);
+    box-shadow: 10px 10px 0 var(--t-saffron);
+}
+html body .auth-card h1 { color: var(--t-ink); font-weight: 800; }
+html body .auth-card h1::before { background: var(--t-plum); color: #fde68a; box-shadow: 3px 3px 0 var(--t-saffron); border-radius: var(--t-r); }
+html body .auth-card a { color: var(--t-plum-2); font-weight: 700; }
+html body .auth-card a:hover { color: var(--t-saffron-d); text-decoration: underline; }
+html body .auth-button { width: 100%; padding: 14px; font-size: 15px; }
+
+/* =====================================================================
+   OTHER GRIDS (different column counts / block sizes)
+   ===================================================================== */
+html body .responsibility-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+html body .responsibility-card {
+    background: var(--t-card);
+    border: 1px solid var(--t-line-2);
+    border-top: 4px solid var(--c1, var(--t-plum));
+    border-radius: var(--t-r);
+    box-shadow: var(--t-shadow);
+    padding: 18px;
+}
+html body .responsibility-card::after { display: none; }
+html body .responsibility-card:hover { transform: translate(-2px, -2px); box-shadow: var(--t-shadow-hover); border-color: var(--t-line-2); border-top-color: var(--c1); }
+html body .responsibility-card > span { background: var(--tint); color: var(--c2); border: 1px solid var(--c1); border-radius: var(--t-r); box-shadow: none; }
+html body .responsibility-card strong { font-family: "Fraunces", Georgia, serif; color: var(--t-ink); }
+html body .responsibility-card p { color: var(--t-muted); }
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (max-width: 1200px) {
+    html body [class$="-stats"], html body .ward-stats, html body .billing-summary, html body .overview-grid, html body .beds-overview-grid,
+    html body .bed-stats-grid, html body .patient-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    html body [class$="-action-grid"], html body .quick-actions, html body [class$="-quick-grid"], html body .responsibility-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+    html body [class$="-stats"], html body [class$="-action-grid"], html body .quick-actions, html body [class$="-form-grid"],
+    html body .responsibility-grid, html body .ward-stats, html body .billing-summary, html body .overview-grid,
+    html body .beds-overview-grid, html body .bed-stats-grid, html body .patient-stats-grid { grid-template-columns: 1fr; }
+    html body h1 { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html body *, html body *::before, html body *::after { animation: none !important; transition: none !important; }
+}
